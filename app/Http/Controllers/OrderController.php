@@ -9,9 +9,9 @@ class OrderController extends Controller
 {
     public static function create(Request $request)
     {
-        /* if (csrf_token() !== $request->get('_token')) {
-            abort(403, 'csrf protection');
-        } */
+        if (csrf_token() !== $request->get('_token')) {
+            abort(403, 'csrf token mismatch');
+        }
         $order = new Order(
             [
                 'amount' => $request->get('amount'),
