@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,37 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get(
-    '/',
-    function () {
-        return view('welcome');
-    }
-);
-
-Route::get(
-    '/dashboard',
-    function () {
-        return view('dashboard');
-    }
-)->middleware(['auth'])->name('dashboard');
+Route::get('/', fn() => view('welcome'));
 
 require __DIR__ . '/auth.php';
 
-Route::get(
-    '/order',
-    function (Request $request) {
-        /*if (csrf_token() !== $request->get('_token')) {
-            abort(403, 'csrf protection');
-        }*/
-        return "Sie haben erfolgreich " . $request->get(
-                'amount'
-            ) . " Lizenzen bestellt. Die Lizenzschlüssel wurden an die Adresse " . $request->get(
-                'email'
-            ) . " verschickt.";
-        return [
-            'session_token' => csrf_token(),
-            'user' => auth()->user(),
-            'request' => $request->all(),
-        ];
-    }
-)->middleware(['auth']);
+Route::get('/dashboard', fn() => view('dashboard'))->middleware(['auth'])->name('dashboard');
+Route::get('/order', [OrderController::class, 'create'])->middleware(['auth']);
