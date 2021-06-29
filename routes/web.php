@@ -19,4 +19,5 @@ Route::get('/', fn() => view('welcome'));
 require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', fn() => view('dashboard'))->middleware(['auth'])->name('dashboard');
+Route::get('/dev', fn() => view('dev'))->middleware(['auth'])->name('dev');
 Route::get('/order', [OrderController::class, 'create'])->middleware(['auth']);
